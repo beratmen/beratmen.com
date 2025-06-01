@@ -162,6 +162,10 @@ const Blog: React.FC = () => {
                     src={post.imageUrl}
                     alt={post.title}
                     className="w-full h-full object-cover transform transition-transform duration-500 group-hover:scale-105"
+                    onError={e => {
+                      e.currentTarget.onerror = null;
+                      e.currentTarget.src = '/404-image-placeholder.png';
+                    }}
                   />
                   <div className="absolute bottom-4 left-4 z-20 flex items-center space-x-3">
                     <span className="px-3 py-1 bg-blue-500 text-white text-sm rounded-full">
@@ -256,4 +260,4 @@ const Blog: React.FC = () => {
   );
 };
 
-export default Blog; 
+export default Blog;
