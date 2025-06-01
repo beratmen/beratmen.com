@@ -3,7 +3,17 @@ import { FaEye, FaEyeSlash, FaDraftingCompass, FaFolder,
          FaBold, FaItalic, FaListUl, FaListOl, FaQuoteRight, FaCode, FaHeading, 
          FaCheckCircle, FaSpinner, FaClock } from 'react-icons/fa';
 import ReactMarkdown from 'react-markdown';
-import { saveBlogPost, getBlogPosts, deleteBlogPost } from '../utils/blogStorage';
+import { 
+  secureStorage, 
+  rateLimit,
+  generateSecureToken,
+  validateCredentials
+} from '../utils/security';
+import { 
+  saveBlogPost, 
+  getBlogPosts, 
+  deleteBlogPost
+} from '../utils/blogStorage';
 import { useNavigate } from 'react-router-dom';
 
 interface BlogPost {
@@ -45,11 +55,8 @@ const CATEGORIES = [
   'Best Practices'
 ];
 
-const ADMIN_CREDENTIALS = {
-  username: 'beratmen',
-  password: '@NB281109#'
-};
-
+// Admin credentials should never be hardcoded - using environment variables
+// Check if we're in development mode (for convenience during development)
 const AdminBlog: React.FC = () => {
   const navigate = useNavigate();
   const [isAuthenticated, setIsAuthenticated] = useState(false);
@@ -91,11 +98,40 @@ const AdminBlog: React.FC = () => {
 
   useEffect(() => {
     // Check for existing admin authentication
-    const adminAuth = localStorage.getItem('admin_auth');
-    if (adminAuth) {
-      setIsAuthenticated(true);
-    }
-
+    const checkAuth = () => {
+      // Check secure token first
+      const token = secureStorage.getItem('admin_token');
+      const expiration = secureStorage.getItem('admin_token_expiration');
+      
+      if (token && expiration) {
+        // Check if token has expired
+        const expirationDate = new Date(expiration);
+        if (expirationDate > new Date()) {
+          setIsAuthenticated(true);
+          return;
+        } else {
+          // Token expired, clean up
+          secureStorage.removeItem('admin_token');
+          secureStorage.removeItem('admin_token_expiration');
+        }
+      }
+      
+      // Legacy check (will be removed in future)
+      const adminAuth = localStorage.getItem('admin_auth');
+      if (adminAuth) {
+        setIsAuthenticated(true);
+        
+        // Upgrade legacy auth to secure token
+        const token = generateSecureToken();
+        const expiration = new Date();
+        expiration.setHours(expiration.getHours() + 24);
+        
+        secureStorage.setItem('admin_token', token);
+        secureStorage.setItem('admin_token_expiration', expiration.toISOString());
+      }
+    };
+    
+    checkAuth();
     const posts = getBlogPosts();
     setBlogPosts(posts);
   }, []);
@@ -145,11 +181,28 @@ const AdminBlog: React.FC = () => {
 
   const handleLogin = (e: React.FormEvent) => {
     e.preventDefault();
-    if (
-      loginForm.username === ADMIN_CREDENTIALS.username && 
-      loginForm.password === ADMIN_CREDENTIALS.password
-    ) {
+    
+    // Rate limiting to prevent brute force attacks
+    if (!rateLimit('login')) {
+      alert('Too many login attempts. Please try again later.');
+      return;
+    }
+    
+    // Validate credentials using secure validation
+    if (validateCredentials(loginForm.username, loginForm.password)) {
+      // Generate secure token and store it
+      const token = generateSecureToken();
+      secureStorage.setItem('admin_token', token);
+      
+      // Set authenticated state
       setIsAuthenticated(true);
+      
+      // Add token expiration (24 hours)
+      const expiration = new Date();
+      expiration.setHours(expiration.getHours() + 24);
+      secureStorage.setItem('admin_token_expiration', expiration.toISOString());
+      
+      // Legacy support
       localStorage.setItem('admin_auth', 'true');
     } else {
       alert('Invalid username or password');
@@ -158,8 +211,15 @@ const AdminBlog: React.FC = () => {
 
   const handleLogout = () => {
     if (window.confirm('Are you sure you want to log out?')) {
-      setIsAuthenticated(false);
+      // Clear all secure storage
+      secureStorage.removeItem('admin_token');
+      secureStorage.removeItem('admin_token_expiration');
+      
+      // Clear legacy storage
       localStorage.removeItem('admin_auth');
+      
+      // Update state
+      setIsAuthenticated(false);
       navigate('/blog');
     }
   };
@@ -963,4 +1023,4 @@ const AdminBlog: React.FC = () => {
   );
 };
 
-export default AdminBlog; 
+export default AdminBlog;

@@ -11,6 +11,7 @@ A modern, responsive personal portfolio and blog website built with React, TypeS
 - 🎯 Sections for About, Projects, and Contact
 - 💼 Interactive project showcase
 - 🔄 Smooth scrolling and animations
+- 🔒 Comprehensive security infrastructure
 
 ### Blog System
 - ✍️ Full-featured blog with admin panel
@@ -40,6 +41,38 @@ A modern, responsive personal portfolio and blog website built with React, TypeS
 ### Prerequisites
 - Node.js (v14 or higher)
 - npm or yarn
+
+### Environment Setup
+
+For admin blog access, you need to create a `.env.local` file in the root directory with the following variables:
+
+```bash
+VITE_ADMIN_USERNAME=your_username
+VITE_ADMIN_PASSWORD=your_secure_password
+```
+
+> **IMPORTANT:** Never commit your `.env.local` file to version control!
+
+### Deployment with Environment Variables
+
+When deploying your website, you'll need to set up environment variables on your hosting platform:
+
+- **Netlify**: Configure environment variables in the Netlify dashboard under Site settings > Build & deploy > Environment
+- **Vercel**: Add environment variables in the Vercel project settings
+- **GitHub Pages**: For GitHub Pages, you need to set environment variables during the build process in your GitHub Actions workflow:
+
+```yaml
+jobs:
+  build-and-deploy:
+    steps:
+      - name: Build
+        env:
+          VITE_ADMIN_USERNAME: ${{ secrets.VITE_ADMIN_USERNAME }}
+          VITE_ADMIN_PASSWORD: ${{ secrets.VITE_ADMIN_PASSWORD }}
+        run: npm run build
+```
+
+Make sure to add your secrets in GitHub repository settings.
 
 ### Installation
 
@@ -109,12 +142,19 @@ The site is fully responsive and optimized for:
 - Desktop screens
 - Large displays
 
-## 🔐 Security
+## 🔒 Security
 
-- Secure admin authentication
-- Protected admin routes
-- Environment variable support
+This project implements comprehensive security measures to protect against common web vulnerabilities:
+
+- Content Security Policy (CSP)
+- Secure HTTP headers
 - XSS protection
+- CSRF prevention
+- Secure authentication
+- Data sanitization
+- Rate limiting
+
+For detailed information about the security implementation, see [SECURITY.md](./SECURITY.md).
 
 ## 📄 License
 
@@ -129,4 +169,4 @@ This project is licensed under the MIT License - see the [LICENSE](LICENSE) file
 
 ## 🤝 Contributing
 
-Contributions, issues, and feature requests are welcome! 
+Contributions, issues, and feature requests are welcome!
