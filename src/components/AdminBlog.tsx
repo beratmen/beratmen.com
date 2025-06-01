@@ -1,7 +1,7 @@
 import React, { useState, useEffect } from 'react';
-import { FaSave, FaImage, FaTags, FaClock, FaTrash, FaEye, FaEyeSlash, FaDraftingCompass, FaFolder, 
-         FaParagraph, FaCog, FaLink, FaHashtag, FaRegImage, FaMarkdown, FaBold, FaItalic, FaListUl,
-         FaListOl, FaQuoteRight, FaCode, FaHeading, FaCheckCircle, FaSpinner } from 'react-icons/fa';
+import { FaEye, FaEyeSlash, FaDraftingCompass, FaFolder, 
+         FaBold, FaItalic, FaListUl, FaListOl, FaQuoteRight, FaCode, FaHeading, 
+         FaCheckCircle, FaSpinner, FaClock } from 'react-icons/fa';
 import ReactMarkdown from 'react-markdown';
 import { saveBlogPost, getBlogPosts, deleteBlogPost } from '../utils/blogStorage';
 import { useNavigate } from 'react-router-dom';
@@ -83,9 +83,7 @@ const AdminBlog: React.FC = () => {
   const [linkInput, setLinkInput] = useState({ url: '', title: '' });
   const [customReadTime, setCustomReadTime] = useState(false);
   const [manualReadTime, setManualReadTime] = useState('5');
-  const [activeTab, setActiveTab] = useState('content');
-  const [showImagePreview, setShowImagePreview] = useState(false);
-  const [autoSaveEnabled, setAutoSaveEnabled] = useState(true);
+  const autoSaveEnabled = true;
   const [editorStats, setEditorStats] = useState<EditorStats>({ words: 0, characters: 0 });
   const [isSaving, setIsSaving] = useState(false);
   const [lastSaved, setLastSaved] = useState<Date | null>(null);
@@ -348,40 +346,6 @@ const AdminBlog: React.FC = () => {
   );
 
   // Modify the content editor section in renderEditorTab
-  const renderContentEditor = () => (
-    <div>
-      <label className="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-2">
-        Content <span className="text-sm text-gray-500">(Markdown supported)</span>
-      </label>
-      <div className="space-y-2">
-        {renderMarkdownToolbar()}
-        <div className="relative">
-          <textarea
-            value={blogPost.content}
-            onChange={(e) => setBlogPost(prev => ({ ...prev, content: e.target.value }))}
-            placeholder="Write your blog post content here..."
-            className="w-full px-4 py-3 bg-gray-50 dark:bg-gray-700 rounded-lg border-2 
-                     border-gray-200 dark:border-gray-600 focus:ring-2 focus:ring-blue-400 
-                     focus:outline-none resize-none h-96 font-mono"
-          />
-          <div className="absolute right-2 bottom-2 flex items-center space-x-4">
-            <div className="text-sm text-gray-500 dark:text-gray-400">
-              {editorStats.words} words | {editorStats.characters} characters
-            </div>
-            <button
-              onClick={() => setPreviewMode(!previewMode)}
-              className="p-2 bg-gray-200 dark:bg-gray-600 rounded-lg hover:bg-gray-300 
-                       dark:hover:bg-gray-500 transition-colors duration-200"
-              title={previewMode ? "Edit Mode" : "Preview Mode"}
-            >
-              {previewMode ? <FaEyeSlash /> : <FaEye />}
-            </button>
-          </div>
-        </div>
-      </div>
-    </div>
-  );
-
   // Add auto-save indicator in the header
   const renderAutoSaveIndicator = () => (
     <div className="text-sm text-gray-500 dark:text-gray-400 flex items-center space-x-2">
@@ -507,233 +471,6 @@ const AdminBlog: React.FC = () => {
       </div>
     </div>
   );
-
-  const renderEditorTab = () => {
-    switch (activeTab) {
-      case 'content':
-        return renderContentEditor();
-
-      case 'media':
-        return (
-          <div className="space-y-6">
-            <div>
-              <label className="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-2">
-                Cover Image URL
-              </label>
-              <div className="space-y-4">
-                <input
-                  type="text"
-                  value={blogPost.imageUrl}
-                  onChange={(e) => setBlogPost(prev => ({ ...prev, imageUrl: e.target.value }))}
-                  placeholder="Enter image URL"
-                  className="w-full px-4 py-3 bg-gray-50 dark:bg-gray-700 rounded-lg border-2 
-                           border-gray-200 dark:border-gray-600 focus:ring-2 focus:ring-blue-400"
-                />
-                {blogPost.imageUrl && (
-                  <div className="relative">
-                    <img
-                      src={blogPost.imageUrl}
-                      alt="Cover preview"
-                      className="w-full h-48 object-cover rounded-lg"
-                    />
-                    <button
-                      onClick={() => setBlogPost(prev => ({ ...prev, imageUrl: '' }))}
-                      className="absolute top-2 right-2 p-2 bg-red-500 text-white rounded-full 
-                               hover:bg-red-600 transition-colors duration-200"
-                    >
-                      <FaTrash size={14} />
-                    </button>
-                  </div>
-                )}
-              </div>
-            </div>
-
-            <div className="bg-gray-50 dark:bg-gray-700 rounded-lg p-4">
-              <h3 className="text-lg font-medium text-gray-900 dark:text-white mb-4">Golden Links</h3>
-              <form onSubmit={handleAddLink} className="space-y-3">
-                <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
-                  <input
-                    type="url"
-                    value={linkInput.url}
-                    onChange={(e) => setLinkInput(prev => ({ ...prev, url: e.target.value }))}
-                    placeholder="Enter URL"
-                    className="w-full px-4 py-2 bg-white dark:bg-gray-600 rounded-lg border-2 
-                             border-gray-200 dark:border-gray-500 focus:ring-2 focus:ring-blue-400"
-                    required
-                  />
-                  <input
-                    type="text"
-                    value={linkInput.title}
-                    onChange={(e) => setLinkInput(prev => ({ ...prev, title: e.target.value }))}
-                    placeholder="Link Title"
-                    className="w-full px-4 py-2 bg-white dark:bg-gray-600 rounded-lg border-2 
-                             border-gray-200 dark:border-gray-500 focus:ring-2 focus:ring-blue-400"
-                    required
-                  />
-                </div>
-                <button
-                  type="submit"
-                  className="w-full px-4 py-2 bg-yellow-500 text-white rounded-lg 
-                           hover:bg-yellow-600 transition-colors duration-200"
-                >
-                  Add Link
-                </button>
-              </form>
-              <div className="mt-4 space-y-2">
-                {(blogPost.goldenLinks || []).map((link, index) => (
-                  <div
-                    key={index}
-                    className="flex items-center justify-between p-3 bg-yellow-50 dark:bg-yellow-900/20 
-                             border-2 border-yellow-200 dark:border-yellow-700 rounded-lg"
-                  >
-                    <a
-                      href={link.url}
-                      target="_blank"
-                      rel="noopener noreferrer"
-                      className="text-yellow-600 dark:text-yellow-400 hover:text-yellow-700 
-                               dark:hover:text-yellow-300 transition-colors duration-200"
-                    >
-                      {link.title}
-                    </a>
-                    <button
-                      onClick={() => handleRemoveLink(link.url)}
-                      className="text-yellow-600 dark:text-yellow-400 hover:text-yellow-700 
-                               dark:hover:text-yellow-300"
-                    >
-                      ×
-                    </button>
-                  </div>
-                ))}
-              </div>
-            </div>
-          </div>
-        );
-
-      case 'tags':
-        return (
-          <div className="space-y-6">
-            <div>
-              <label className="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-2">
-                Tags
-              </label>
-              <div className="space-y-4">
-                <div className="flex items-center space-x-2">
-                  <input
-                    type="text"
-                    value={tagInput}
-                    onChange={(e) => setTagInput(e.target.value)}
-                    onKeyDown={handleAddTag}
-                    placeholder="Add tags (press Enter)"
-                    className="flex-1 px-4 py-2 bg-gray-50 dark:bg-gray-700 rounded-lg border-2 
-                             border-gray-200 dark:border-gray-600 focus:ring-2 focus:ring-blue-400"
-                  />
-                </div>
-                <div className="flex flex-wrap gap-2">
-                  {blogPost.tags.map((tag, index) => (
-                    <span
-                      key={index}
-                      className="px-3 py-1 bg-blue-100 dark:bg-blue-900/30 text-blue-600 
-                               dark:text-blue-400 rounded-full text-sm flex items-center"
-                    >
-                      {tag}
-                      <button
-                        onClick={() => handleRemoveTag(tag)}
-                        className="ml-2 text-blue-400 hover:text-blue-600"
-                      >
-                        ×
-                      </button>
-                    </span>
-                  ))}
-                </div>
-              </div>
-            </div>
-
-            <div className="bg-gray-50 dark:bg-gray-700 rounded-lg p-4">
-              <h3 className="text-lg font-medium text-gray-900 dark:text-white mb-4">Reading Time Settings</h3>
-              <div className="space-y-4">
-                <label className="flex items-center justify-between cursor-pointer">
-                  <span className="text-sm text-gray-600 dark:text-gray-300">
-                    Custom reading time
-                  </span>
-                  <div className="relative">
-                    <input
-                      type="checkbox"
-                      checked={customReadTime}
-                      onChange={(e) => setCustomReadTime(e.target.checked)}
-                      className="sr-only"
-                    />
-                    <div className="w-10 h-6 bg-gray-300 rounded-full shadow-inner"></div>
-                    <div className={`absolute w-4 h-4 bg-white rounded-full shadow transition-transform duration-200 ease-in-out transform ${customReadTime ? 'translate-x-5' : 'translate-x-1'} top-1`}></div>
-                  </div>
-                </label>
-                {customReadTime ? (
-                  <div className="flex items-center space-x-2">
-                    <input
-                      type="number"
-                      min="1"
-                      value={manualReadTime}
-                      onChange={(e) => setManualReadTime(e.target.value)}
-                      className="w-20 px-3 py-2 bg-white dark:bg-gray-600 rounded border-2 
-                               border-gray-200 dark:border-gray-500 focus:ring-2 
-                               focus:ring-blue-400 text-center"
-                    />
-                    <span className="text-gray-600 dark:text-gray-300">minutes</span>
-                  </div>
-                ) : (
-                  <p className="text-sm text-gray-600 dark:text-gray-400">
-                    Automatically calculated based on content length ({blogPost.readTime})
-                  </p>
-                )}
-              </div>
-            </div>
-          </div>
-        );
-
-      case 'settings':
-        return (
-          <div className="space-y-6">
-            <div className="bg-gray-50 dark:bg-gray-700 rounded-lg p-4">
-              <h3 className="text-lg font-medium text-gray-900 dark:text-white mb-4">Editor Settings</h3>
-              <div className="space-y-4">
-                <label className="flex items-center justify-between cursor-pointer">
-                  <span className="text-sm text-gray-600 dark:text-gray-300">
-                    Enable auto-save (every minute)
-                  </span>
-                  <div className="relative">
-                    <input
-                      type="checkbox"
-                      checked={autoSaveEnabled}
-                      onChange={(e) => setAutoSaveEnabled(e.target.checked)}
-                      className="sr-only"
-                    />
-                    <div className="w-10 h-6 bg-gray-300 rounded-full shadow-inner"></div>
-                    <div className={`absolute w-4 h-4 bg-white rounded-full shadow transition-transform duration-200 ease-in-out transform ${autoSaveEnabled ? 'translate-x-5' : 'translate-x-1'} top-1`}></div>
-                  </div>
-                </label>
-              </div>
-            </div>
-
-            <div className="bg-gray-50 dark:bg-gray-700 rounded-lg p-4">
-              <h3 className="text-lg font-medium text-gray-900 dark:text-white mb-4">Author Information</h3>
-              <div className="flex items-center space-x-4">
-                <img
-                  src={blogPost.author.avatar}
-                  alt={blogPost.author.name}
-                  className="w-16 h-16 rounded-full border-2 border-gray-200 dark:border-gray-600"
-                />
-                <div>
-                  <p className="font-medium text-gray-900 dark:text-white">{blogPost.author.name}</p>
-                  <p className="text-sm text-gray-500 dark:text-gray-400">{blogPost.author.role}</p>
-                </div>
-              </div>
-            </div>
-          </div>
-        );
-
-      default:
-        return null;
-    }
-  };
 
   // Add this function to handle post deletion
   const handleDeletePost = (id: number, isDraft: boolean) => {
