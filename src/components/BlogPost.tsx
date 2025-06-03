@@ -3,6 +3,7 @@ import { useParams, Link, useNavigate } from 'react-router-dom';
 import { FaClock, FaTag, FaArrowLeft, FaBookmark, FaShare, FaTrash, FaEdit } from 'react-icons/fa';
 import { getBlogPostById, deleteBlogPost } from '../utils/blogStorage';
 import ReactMarkdown from 'react-markdown';
+import StyledName from './shared/StyledName';
 
 interface BlogPost {
   id: number;
@@ -227,7 +228,9 @@ const BlogPost: React.FC = () => {
             </div>
             <div>
               <h3 className="text-lg font-semibold text-gray-900 dark:text-white">
-                {post.author.name}
+                {post.author.name === 'Berat MEN' ? (
+                  <StyledName />
+                ) : post.author.name}
               </h3>
               <p className="text-gray-600 dark:text-gray-400">
                 {post.author.role}

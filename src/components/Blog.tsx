@@ -112,99 +112,96 @@ const Blog: React.FC = () => {
   };
 
   return (
-    <div className="min-h-screen bg-gradient-to-b from-white to-gray-50 dark:from-gray-900 dark:to-gray-800">
+    <div className="min-h-screen bg-gradient-to-b from-white to-gray-50 dark:from-gray-900 dark:to-gray-800 mobile-container safe-area-inset-top safe-area-inset-bottom">
       {/* Hero Section */}
       <div className="relative overflow-hidden bg-gradient-to-r from-blue-600 to-blue-400 dark:from-blue-500 dark:to-blue-300">
         <div className="absolute inset-0 bg-[url('/grid.svg')] opacity-10"></div>
-        <div className="container mx-auto px-4 py-20">
+        <div className="container mx-auto px-4 sm:px-6 py-12 sm:py-16 md:py-20 mobile-spacing">
           <div className="max-w-4xl mx-auto text-center">
-            <h1 className="text-4xl md:text-6xl font-bold text-white mb-6 tracking-tight">
+            <h1 className="text-2xl sm:text-3xl md:text-4xl lg:text-6xl font-bold text-white mb-4 sm:mb-6 tracking-tight mobile-text-lg">
               Blog & Articles
             </h1>
-            <p className="text-lg md:text-xl text-blue-100 max-w-2xl mx-auto leading-relaxed">
+            <p className="text-base sm:text-lg md:text-xl text-blue-100 max-w-2xl mx-auto leading-relaxed mobile-text-base">
               Explore the latest articles about web development, design patterns, and software engineering best practices.
             </p>
           </div>
         </div>
       </div>
 
-      <div className="container mx-auto px-4 -mt-8">
+      <div className="container mx-auto px-4 sm:px-6 -mt-6 sm:-mt-8 mobile-spacing">
         <div className="max-w-6xl mx-auto">
           {/* Search Bar */}
-          <div className="max-w-2xl mx-auto mb-16">
+          <div className="max-w-2xl mx-auto mb-12 sm:mb-16">
             <div className="relative">
               <input
                 type="text"
                 value={searchTerm}
                 onChange={(e) => setSearchTerm(e.target.value)}
                 placeholder="Search articles by title or tags..."
-                className="w-full px-6 py-4 bg-white dark:bg-gray-800 border border-gray-200 dark:border-gray-700 
+                className="w-full px-4 sm:px-6 py-3 sm:py-4 text-base bg-white dark:bg-gray-800 border border-gray-200 dark:border-gray-700 
                          rounded-xl shadow-lg focus:outline-none focus:ring-2 focus:ring-blue-400 dark:focus:ring-blue-500
-                         text-gray-900 dark:text-white placeholder-gray-500 dark:placeholder-gray-400"
+                         text-gray-900 dark:text-white placeholder-gray-500 dark:placeholder-gray-400
+                         mobile-input touch-feedback"
               />
-              <FaSearch className="absolute right-6 top-1/2 transform -translate-y-1/2 text-gray-400" />
+              <FaSearch className="absolute right-4 sm:right-6 top-1/2 transform -translate-y-1/2 text-gray-400 text-sm sm:text-base" />
             </div>
           </div>
 
           {/* Blog Posts Grid */}
-          <div className="grid grid-cols-1 md:grid-cols-2 gap-8">
+          <div className="grid grid-cols-1 lg:grid-cols-2 gap-6 sm:gap-8 mobile-spacing">
             {filteredPosts.map((post) => (
               <Link
                 key={post.id}
                 to={`/blog/${post.id}`}
                 className="group bg-white dark:bg-gray-800 rounded-2xl overflow-hidden shadow-lg hover:shadow-xl 
-                         transition-all duration-300 transform hover:-translate-y-1"
+                         transition-all duration-300 transform hover:-translate-y-1 mobile-card touch-feedback"
               >
                 {/* Post Image */}
-                <div className="relative h-56 overflow-hidden">
+                <div className="relative h-48 sm:h-56 overflow-hidden">
                   <div className="absolute inset-0 bg-gradient-to-b from-transparent via-transparent to-black/60 z-10"></div>
                   <img
                     src={post.imageUrl}
                     alt={post.title}
                     className="w-full h-full object-cover transform transition-transform duration-500 group-hover:scale-105"
-                    onError={e => {
-                      e.currentTarget.onerror = null;
-                      e.currentTarget.src = '/404-image-placeholder.png';
-                    }}
                   />
-                  <div className="absolute bottom-4 left-4 z-20 flex items-center space-x-3">
-                    <span className="px-3 py-1 bg-blue-500 text-white text-sm rounded-full">
+                  <div className="absolute bottom-3 sm:bottom-4 left-3 sm:left-4 z-20 flex items-center space-x-2 sm:space-x-3">
+                    <span className="px-2 sm:px-3 py-1 bg-blue-500 text-white text-xs sm:text-sm rounded-full">
                       {post.category}
                     </span>
-                    <span className="text-white text-sm flex items-center">
-                      <FaBookmark className="mr-2" />
+                    <span className="text-white text-xs sm:text-sm flex items-center">
+                      <FaBookmark className="mr-1 sm:mr-2 text-xs" />
                       {post.readTime}
                     </span>
                   </div>
                 </div>
 
                 {/* Post Content */}
-                <div className="p-6">
-                  <h2 className="text-xl font-bold text-gray-900 dark:text-white mb-3 group-hover:text-blue-500 
+                <div className="p-4 sm:p-6">
+                  <h2 className="text-lg sm:text-xl font-bold text-gray-900 dark:text-white mb-2 sm:mb-3 group-hover:text-blue-500 
                                dark:group-hover:text-blue-400 transition-colors duration-300 line-clamp-2">
                     {post.title}
                   </h2>
-                  <p className="text-gray-600 dark:text-gray-400 mb-4 line-clamp-2">
+                  <p className="text-sm sm:text-base text-gray-600 dark:text-gray-400 mb-3 sm:mb-4 line-clamp-2">
                     {post.excerpt}
                   </p>
 
                   {/* Author and Meta Information */}
-                  <div className="flex flex-col space-y-4">
+                  <div className="flex flex-col space-y-3 sm:space-y-4">
                     {/* Author Info */}
-                    <div className="flex items-center space-x-3 group-hover:transform group-hover:scale-105 transition-transform duration-300">
+                    <div className="flex items-center space-x-2 sm:space-x-3 group-hover:transform group-hover:scale-105 transition-transform duration-300">
                       <div className="relative">
                         <div className="absolute -inset-1 bg-green-500/30 rounded-full blur-lg transform group-hover:scale-110 transition-all duration-300
                                       animate-[glow_2s_ease-in-out_infinite]"></div>
                         <img
                           src={post.author?.avatar}
                           alt={post.author?.name}
-                          className="relative w-12 h-12 rounded-full border-2 border-green-500/50 
+                          className="relative w-10 sm:w-12 h-10 sm:h-12 rounded-full border-2 border-green-500/50 
                                    transform transition-all duration-300 group-hover:scale-110
                                    shadow-[0_0_15px_2px_rgba(34,197,94,0.5)] dark:shadow-[0_0_15px_2px_rgba(34,197,94,0.6)]"
                         />
                       </div>
                       <div>
-                        <h3 className="text-sm font-semibold text-gray-900 dark:text-white group-hover:text-green-500 transition-colors duration-300">
+                        <h3 className="text-xs sm:text-sm font-semibold text-gray-900 dark:text-white group-hover:text-green-500 transition-colors duration-300">
                           {post.author?.name}
                         </h3>
                         <p className="text-xs text-gray-600 dark:text-gray-400">
@@ -214,20 +211,20 @@ const Blog: React.FC = () => {
                     </div>
 
                     {/* Meta Information */}
-                    <div className="flex items-center justify-between text-sm text-gray-500 dark:text-gray-400 pt-2 border-t border-gray-100 dark:border-gray-700">
-                      <div className="flex items-center space-x-4">
+                    <div className="flex items-center justify-between text-xs sm:text-sm text-gray-500 dark:text-gray-400 pt-2 border-t border-gray-100 dark:border-gray-700">
+                      <div className="flex flex-col sm:flex-row sm:items-center sm:space-x-4 space-y-2 sm:space-y-0">
                         <span className="flex items-center">
-                          <FaClock className="mr-2" />
+                          <FaClock className="mr-1 sm:mr-2 text-xs" />
                           {formatDate(post.date)}
                         </span>
-                        <div className="flex items-center space-x-2">
-                          <FaTag className="mr-1" />
+                        <div className="flex items-center space-x-1 sm:space-x-2">
+                          <FaTag className="mr-1 text-xs" />
                           {post.tags.slice(0, 2).map((tag, index) => {
                             const colors = techColors[tag] || defaultColors;
                             return (
                               <span
                                 key={index}
-                                className={`px-2 py-1 rounded-full text-xs font-medium transition-colors duration-200 ${colors.bg} ${colors.text} ${colors.darkBg} ${colors.darkText}`}
+                                className={`px-1.5 sm:px-2 py-0.5 sm:py-1 rounded-full text-xs font-medium transition-colors duration-200 ${colors.bg} ${colors.text} ${colors.darkBg} ${colors.darkText}`}
                               >
                                 {tag}
                               </span>
@@ -235,7 +232,7 @@ const Blog: React.FC = () => {
                           })}
                         </div>
                       </div>
-                      <FaChevronRight className="transform group-hover:translate-x-1 transition-transform duration-300" />
+                      <FaChevronRight className="transform group-hover:translate-x-1 transition-transform duration-300 text-xs sm:text-sm" />
                     </div>
                   </div>
                 </div>
@@ -245,11 +242,11 @@ const Blog: React.FC = () => {
 
           {/* No Results Message */}
           {filteredPosts.length === 0 && (
-            <div className="text-center py-12 bg-white dark:bg-gray-800 rounded-2xl shadow-lg">
-              <p className="text-gray-600 dark:text-gray-400 text-lg mb-2">
+            <div className="text-center py-8 sm:py-12 bg-white dark:bg-gray-800 rounded-2xl shadow-lg mobile-card">
+              <p className="text-gray-600 dark:text-gray-400 text-base sm:text-lg mb-2">
                 No articles found matching your search criteria.
               </p>
-              <p className="text-gray-500 dark:text-gray-500">
+              <p className="text-gray-500 dark:text-gray-500 text-sm sm:text-base">
                 Try adjusting your search terms or browse all articles.
               </p>
             </div>
@@ -260,4 +257,4 @@ const Blog: React.FC = () => {
   );
 };
 
-export default Blog;
+export default Blog; 

@@ -3,6 +3,7 @@ import { FaEye, FaEyeSlash, FaDraftingCompass, FaFolder,
          FaBold, FaItalic, FaListUl, FaListOl, FaQuoteRight, FaCode, FaHeading, 
          FaCheckCircle, FaSpinner, FaClock } from 'react-icons/fa';
 import ReactMarkdown from 'react-markdown';
+import StyledName from './shared/StyledName';
 import { 
   secureStorage, 
   rateLimit,
@@ -115,20 +116,6 @@ const AdminBlog: React.FC = () => {
           secureStorage.removeItem('admin_token_expiration');
         }
       }
-      
-      // Legacy check (will be removed in future)
-      const adminAuth = localStorage.getItem('admin_auth');
-      if (adminAuth) {
-        setIsAuthenticated(true);
-        
-        // Upgrade legacy auth to secure token
-        const token = generateSecureToken();
-        const expiration = new Date();
-        expiration.setHours(expiration.getHours() + 24);
-        
-        secureStorage.setItem('admin_token', token);
-        secureStorage.setItem('admin_token_expiration', expiration.toISOString());
-      }
     };
     
     checkAuth();
@@ -201,9 +188,6 @@ const AdminBlog: React.FC = () => {
       const expiration = new Date();
       expiration.setHours(expiration.getHours() + 24);
       secureStorage.setItem('admin_token_expiration', expiration.toISOString());
-      
-      // Legacy support
-      localStorage.setItem('admin_auth', 'true');
     } else {
       alert('Invalid username or password');
     }
@@ -214,9 +198,6 @@ const AdminBlog: React.FC = () => {
       // Clear all secure storage
       secureStorage.removeItem('admin_token');
       secureStorage.removeItem('admin_token_expiration');
-      
-      // Clear legacy storage
-      localStorage.removeItem('admin_auth');
       
       // Update state
       setIsAuthenticated(false);
@@ -467,7 +448,9 @@ const AdminBlog: React.FC = () => {
               className="w-12 h-12 rounded-full"
             />
             <div>
-              <div className="font-medium">{blogPost.author.name}</div>
+              <div className="font-medium">
+                {blogPost.author.name === 'Berat MEN' ? <StyledName /> : blogPost.author.name}
+              </div>
               <div className="text-sm text-gray-500">{blogPost.author.role}</div>
             </div>
           </div>

@@ -1,0 +1,156 @@
+.skills-section {
+  padding: 3rem 0;
+}
+
+.skills-section h2 {
+  text-align: center;
+  margin-bottom: 2rem;
+  font-size: 2rem;
+}
+
+.skills-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(200px, 1fr));
+  gap: 1.5rem;
+  max-width: 1200px;
+  margin: 0 auto;
+}
+
+.skill-box {
+  background-color: #ffffff;
+  border-radius: 8px;
+  padding: 1.5rem;
+  box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+  text-align: center;
+  transition: transform 0.3s ease, box-shadow 0.3s ease;
+  cursor: pointer;
+}
+
+.skill-box:hover {
+  transform: translateY(-5px);
+  box-shadow: 0 10px 15px rgba(0, 0, 0, 0.1);
+}
+
+.skill-box i {
+  font-size: 2.5rem;
+  margin-bottom: 1rem;
+  color: #3498db;
+}
+
+.skill-box h3 {
+  font-size: 1.2rem;
+  margin-bottom: 1rem;
+}
+
+.skill-level {
+  display: flex;
+  justify-content: center;
+  gap: 4px;
+  margin-top: 0.5rem;
+}
+
+.level-dot {
+  width: 12px;
+  height: 12px;
+  border-radius: 50%;
+  background-color: #e0e0e0;
+}
+
+.level-dot.filled {
+  background-color: #3498db;
+}
+
+/* Popup styles */
+.skill-popup-overlay {
+  position: fixed;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  background-color: rgba(0, 0, 0, 0.7);
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  z-index: 1000;
+  padding: 1rem;
+}
+
+.skill-popup {
+  background-color: #ffffff;
+  border-radius: 8px;
+  padding: 2rem;
+  max-width: 600px;
+  width: 100%;
+  position: relative;
+  max-height: 80vh;
+  overflow-y: auto;
+}
+
+.close-popup {
+  position: absolute;
+  top: 1rem;
+  right: 1rem;
+  background: none;
+  border: none;
+  font-size: 1.5rem;
+  cursor: pointer;
+  width: 30px;
+  height: 30px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  border-radius: 50%;
+  background-color: #f0f0f0;
+}
+
+.close-popup:hover {
+  background-color: #e0e0e0;
+}
+
+.popup-header {
+  display: flex;
+  align-items: center;
+  margin-bottom: 1rem;
+}
+
+.popup-header i {
+  font-size: 2rem;
+  margin-right: 1rem;
+  color: #3498db;
+}
+
+.popup-header h3 {
+  font-size: 1.5rem;
+  margin: 0;
+}
+
+.skill-popup p {
+  line-height: 1.6;
+  margin-bottom: 1.5rem;
+}
+
+.projects-with-skill h4 {
+  margin-bottom: 0.5rem;
+  font-size: 1.2rem;
+}
+
+.projects-with-skill ul {
+  padding-left: 1.5rem;
+}
+
+.projects-with-skill li {
+  margin-bottom: 0.5rem;
+}
+
+/* Make the grid responsive */
+@media (max-width: 768px) {
+  .skills-grid {
+    grid-template-columns: repeat(2, 1fr);
+  }
+}
+
+@media (max-width: 480px) {
+  .skills-grid {
+    grid-template-columns: 1fr;
+  }
+}
