@@ -1,5 +1,5 @@
 import React, { useState } from 'react';
-import { FaBriefcase, FaGraduationCap, FaChevronDown, FaChevronUp, FaGlobe, FaInstagram, FaTwitter, FaLinkedin, FaEnvelope } from 'react-icons/fa';
+import { FaBriefcase, FaGraduationCap, FaChevronDown, FaChevronUp, FaInstagram, FaTwitter, FaLinkedin, FaEnvelope } from 'react-icons/fa';
 
 interface TimelineItem {
   id: number;
