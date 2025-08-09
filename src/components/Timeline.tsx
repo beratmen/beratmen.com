@@ -1,5 +1,5 @@
 import React, { useState } from 'react';
-import { FaBriefcase, FaGraduationCap, FaChevronDown, FaChevronUp } from 'react-icons/fa';
+import { FaBriefcase, FaGraduationCap, FaChevronDown, FaChevronUp, FaGlobe, FaInstagram, FaTwitter, FaLinkedin, FaEnvelope } from 'react-icons/fa';
 
 interface TimelineItem {
   id: number;
@@ -11,6 +11,12 @@ interface TimelineItem {
   description: string[];
   technologies?: string[];
   currentFocus?: string[];
+  website?: string;
+  socialLinks?: {
+    instagram?: string;
+    twitter?: string;
+    linkedin?: string;
+  };
 }
 
 const Timeline: React.FC = () => {
@@ -20,33 +26,28 @@ const Timeline: React.FC = () => {
     {
       id: 1,
       type: 'work',
-      title: 'Senior Frontend Developer',
-      organization: 'Tech Innovations Inc.',
-      location: 'New York, NY',
-      period: '2022 - Present',
+      title: 'Founder & CEO',
+      organization: 'Xenovig Digital',
+      location: 'Turkey',
+      period: '2025 - Present',
       description: [
-        'Led a team of 5 developers in building a modern, responsive web application using React and TypeScript',
-        'Implemented CI/CD pipelines resulting in 40% faster deployment cycles',
-        'Optimized application performance, reducing load time by 60% and improving overall user experience'
+        'Founded Xenovig Digital, a leading digital media agency specializing in innovative web solutions and digital transformation',
+        'Providing comprehensive web development services including custom website design, development, and maintenance',
+        'Expert in SEO optimization, helping businesses improve their online visibility and search engine rankings',
+        'Developing robust e-commerce solutions that drive sales and enhance customer experience',
+        'Leading a team of digital experts to deliver cutting-edge digital marketing strategies',
+        'Building and maintaining strong client relationships while expanding the company portfolio'
       ],
-      technologies: ['React', 'TypeScript', 'Redux', 'Jest', 'CI/CD']
+      technologies: ['Web Development', 'SEO Optimization', 'E-commerce Solutions', 'Digital Marketing', 'UI/UX Design', 'Social Media Management'],
+      website: 'https://www.xenovig.com',
+      socialLinks: {
+        instagram: 'https://instagram.com/xenovig',
+        twitter: 'https://twitter.com/xenovig',
+        linkedin: 'https://linkedin.com/company/xenovig'
+      }
     },
     {
       id: 2,
-      type: 'work',
-      title: 'Full Stack Developer',
-      organization: 'Digital Solutions Ltd.',
-      location: 'San Francisco, CA',
-      period: '2019 - 2022',
-      description: [
-        'Developed RESTful APIs and microservices using Node.js, Express, and MongoDB',
-        'Built and maintained multiple client-facing web applications',
-        'Collaborated with design team to implement UI/UX improvements'
-      ],
-      technologies: ['JavaScript', 'Node.js', 'Express', 'MongoDB', 'React']
-    },
-    {
-      id: 3,
       type: 'education',
       title: 'Computer Programming',
       organization: 'Gaziantep University',
@@ -62,46 +63,6 @@ const Timeline: React.FC = () => {
         'Web Development Technologies',
         'Database Management Systems',
         'Programming Languages & Frameworks'
-      ]
-    },
-    {
-      id: 4,
-      type: 'education',
-      title: 'Master of Science in Computer Science',
-      organization: 'University of Technology',
-      location: 'Boston, MA',
-      period: '2017 - 2019',
-      description: [
-        'Specialized in Software Engineering and Machine Learning',
-        'Graduate research assistant in the Advanced Web Technologies Lab',
-        'Thesis: "Optimizing Performance in Modern Web Applications"'
-      ]
-    },
-    {
-      id: 5,
-      type: 'work',
-      title: 'Junior Web Developer',
-      organization: 'Creative Agency',
-      location: 'Chicago, IL',
-      period: '2015 - 2017',
-      description: [
-        'Developed and maintained client websites using HTML, CSS, and JavaScript',
-        'Implemented responsive designs and ensured cross-browser compatibility',
-        'Assisted senior developers with larger projects and code reviews'
-      ],
-      technologies: ['HTML', 'CSS', 'JavaScript', 'jQuery', 'PHP']
-    },
-    {
-      id: 6,
-      type: 'education',
-      title: 'Bachelor of Science in Computer Science',
-      organization: 'State University',
-      location: 'Chicago, IL',
-      period: '2011 - 2015',
-      description: [
-        'Graduated with Honors (GPA: 3.8/4.0)',
-        'Member of the Computing Society',
-        'Participated in three national programming competitions'
       ]
     }
   ];
@@ -139,10 +100,74 @@ const Timeline: React.FC = () => {
                 {item.title}
               </h3>
               <div className="text-gray-600 dark:text-gray-300 font-medium text-sm md:text-base mobile-text-sm">
-                {item.organization}
+                {item.website ? (
+                  <a
+                    href={item.website}
+                    target="_blank"
+                    rel="noopener noreferrer"
+                    className="text-blue-600 dark:text-blue-400 hover:text-blue-700 dark:hover:text-blue-300 transition-colors border-b border-dashed border-transparent hover:border-current"
+                    title="Visit Website"
+                  >
+                    {item.organization}
+                  </a>
+                ) : (
+                  item.organization
+                )}
               </div>
               <div className="text-gray-500 dark:text-gray-400 text-xs md:text-sm mobile-text-sm">
                 {item.location}
+              </div>
+
+              {/* Social & Contact Links */}
+              <div className="mt-4">
+                <div className="flex items-center space-x-4">
+                  {item.socialLinks?.instagram && (
+                    <a
+                      href={item.socialLinks.instagram}
+                      target="_blank"
+                      rel="noopener noreferrer"
+                      className="text-pink-600 dark:text-pink-400 hover:text-pink-700 dark:hover:text-pink-300 transition-colors transform hover:scale-110"
+                      title="Instagram @xenovig"
+                      aria-label="Instagram"
+                    >
+                      <FaInstagram size={20} />
+                    </a>
+                  )}
+                  {item.socialLinks?.twitter && (
+                    <a
+                      href={item.socialLinks.twitter}
+                      target="_blank"
+                      rel="noopener noreferrer"
+                      className="text-blue-400 dark:text-blue-400 hover:text-blue-500 dark:hover:text-blue-300 transition-colors transform hover:scale-110"
+                      title="Twitter @xenovig"
+                      aria-label="Twitter"
+                    >
+                      <FaTwitter size={20} />
+                    </a>
+                  )}
+                  {item.socialLinks?.linkedin && (
+                    <a
+                      href={item.socialLinks.linkedin}
+                      target="_blank"
+                      rel="noopener noreferrer"
+                      className="text-blue-600 dark:text-blue-400 hover:text-blue-700 dark:hover:text-blue-300 transition-colors transform hover:scale-110"
+                      title="LinkedIn @xenovig"
+                      aria-label="LinkedIn"
+                    >
+                      <FaLinkedin size={20} />
+                    </a>
+                  )}
+                  {item.organization === 'Xenovig Digital' && (
+                    <a
+                      href="mailto:info@xenovig.com"
+                      className="text-gray-600 dark:text-gray-300 hover:text-gray-800 dark:hover:text-white transition-colors transform hover:scale-110"
+                      title="Email info@xenovig.com"
+                      aria-label="Email"
+                    >
+                      <FaEnvelope size={20} />
+                    </a>
+                  )}
+                </div>
               </div>
             </div>
             <button 
@@ -167,19 +192,22 @@ const Timeline: React.FC = () => {
                   <h5 className="text-lg font-semibold text-green-700 dark:text-green-300 mb-3">Current Focus</h5>
                   <ul className="list-disc list-inside text-gray-700 dark:text-gray-300 space-y-2">
                     {item.currentFocus.map((focus, i) => (
-                      <li key={i}>{focus}</li>
+                      <li key={i} className="text-sm md:text-base">{focus}</li>
                     ))}
                   </ul>
                 </div>
               )}
               
-              {item.technologies && (
-                <div className="mt-4">
+              {item.technologies && item.technologies.length > 0 && (
+                <div className="mt-6">
+                  <h5 className="text-md font-semibold text-gray-700 dark:text-gray-300 mb-2">Technologies & Skills</h5>
                   <div className="flex flex-wrap gap-2">
                     {item.technologies.map((tech, i) => (
                       <span 
                         key={i}
-                        className={`px-2 md:px-3 py-1 ${isEducation ? 'bg-green-50 dark:bg-green-900/30 text-green-600 dark:text-green-400' : 'bg-blue-50 dark:bg-blue-900/30 text-blue-600 dark:text-blue-400'} text-xs md:text-sm rounded-full mobile-text-sm`}
+                        className={`px-2 md:px-3 py-1 text-xs md:text-sm rounded-full ${isEducation 
+                          ? 'bg-green-50 dark:bg-green-900/30 text-green-600 dark:text-green-400' 
+                          : 'bg-blue-50 dark:bg-blue-900/30 text-blue-600 dark:text-blue-400'}`}
                       >
                         {tech}
                       </span>
@@ -196,27 +224,23 @@ const Timeline: React.FC = () => {
 
   return (
     <div id="timeline" className="max-w-4xl mx-auto mb-16 animate-fadeIn">
-      <div className="bg-white dark:bg-gray-800 rounded-xl shadow-lg p-8 transform hover:scale-[1.01] transition-all duration-300">
-        <h3 className="text-2xl font-bold mb-6 text-indigo-600 dark:text-indigo-400 flex items-center">
+      <div className="bg-white dark:bg-gray-800 rounded-xl shadow-lg p-6 md:p-8 transform hover:scale-[1.01] transition-all duration-300">
+        <h2 className="text-2xl md:text-3xl font-bold mb-6 text-indigo-600 dark:text-indigo-400 flex items-center">
           <FaBriefcase className="mr-3" /> Experience & Education
-        </h3>
-        <p className="text-lg text-gray-700 dark:text-gray-300 leading-relaxed mb-8">
+        </h2>
+        <p className="text-base md:text-lg text-gray-700 dark:text-gray-300 leading-relaxed mb-8">
           My professional journey and academic background, highlighting key roles and educational milestones that have shaped my career.
         </p>
 
-        {/* Unified timeline with Education on top */}
-        <div className="bg-gray-50 dark:bg-gray-800/50 rounded-xl p-6 md:p-8 shadow-md">
+        <div className="bg-gray-50 dark:bg-gray-800/50 rounded-xl p-4 md:p-6 lg:p-8 shadow-md">
           {/* Education Section */}
           <div className="mb-12">
-            <h3 className="text-xl font-bold mb-8 text-green-600 dark:text-green-400 flex items-center">
-              <FaGraduationCap className="mr-3" /> Education
+            <h3 className="text-xl font-bold mb-6 text-green-600 dark:text-green-400 flex items-center">
+              <FaGraduationCap className="mr-2" /> Education
             </h3>
             
-            <div className="relative">
-              {/* Timeline Line */}
+            <div className="relative pl-4 md:pl-6">
               <div className="absolute left-0 top-0 h-full w-0.5 bg-green-200 dark:bg-green-700/50"></div>
-              
-              {/* Education Items */}
               <div>
                 {educationItems.map((item) => renderTimelineItem(item, true))}
               </div>
@@ -225,15 +249,12 @@ const Timeline: React.FC = () => {
 
           {/* Experience Section */}
           <div>
-            <h3 className="text-xl font-bold mb-8 text-blue-600 dark:text-blue-400 flex items-center">
-              <FaBriefcase className="mr-3" /> Professional Experience
+            <h3 className="text-xl font-bold mb-6 text-blue-600 dark:text-blue-400 flex items-center">
+              <FaBriefcase className="mr-2" /> Professional Experience
             </h3>
             
-            <div className="relative">
-              {/* Timeline Line */}
+            <div className="relative pl-4 md:pl-6">
               <div className="absolute left-0 top-0 h-full w-0.5 bg-blue-200 dark:bg-blue-700/50"></div>
-              
-              {/* Work Items */}
               <div>
                 {workItems.map((item) => renderTimelineItem(item, false))}
               </div>

@@ -1,7 +1,7 @@
 import React, { useState, useEffect } from 'react';
 import { FaEye, FaEyeSlash, FaDraftingCompass, FaFolder, 
          FaBold, FaItalic, FaListUl, FaListOl, FaQuoteRight, FaCode, FaHeading, 
-         FaCheckCircle, FaSpinner, FaClock } from 'react-icons/fa';
+         FaCheckCircle, FaSpinner, FaClock, FaUpload, FaImage, FaLink } from 'react-icons/fa';
 import ReactMarkdown from 'react-markdown';
 import StyledName from './shared/StyledName';
 import { 
@@ -96,6 +96,9 @@ const AdminBlog: React.FC = () => {
   const [isSaving, setIsSaving] = useState(false);
   const [lastSaved, setLastSaved] = useState<Date | null>(null);
   const [showManagePosts, setShowManagePosts] = useState(false);
+  const [imageUploadMethod, setImageUploadMethod] = useState<'url' | 'file'>('url');
+  const [uploadedFile, setUploadedFile] = useState<File | null>(null);
+  const [isUploading, setIsUploading] = useState(false);
 
   useEffect(() => {
     // Check for existing admin authentication
@@ -295,6 +298,98 @@ const AdminBlog: React.FC = () => {
       
       // Clear the input fields after adding
       setLinkInput({ url: '', title: '' });
+    }
+  };
+
+  // File upload handler for cover images
+  const handleFileUpload = async (event: React.ChangeEvent<HTMLInputElement>) => {
+    const file = event.target.files?.[0];
+    if (!file) return;
+
+    // Validate file type
+    if (!file.type.startsWith('image/')) {
+      alert('Please select an image file');
+      return;
+    }
+
+    // Validate file size (max 5MB)
+    if (file.size > 5 * 1024 * 1024) {
+      alert('File size should be less than 5MB');
+      return;
+    }
+
+    setIsUploading(true);
+    setUploadedFile(file);
+
+    try {
+      // Convert file to base64 data URL for preview
+      const reader = new FileReader();
+      reader.onload = (e) => {
+        const result = e.target?.result as string;
+        setBlogPost(prev => ({
+          ...prev,
+          imageUrl: result
+        }));
+        setIsUploading(false);
+      };
+      reader.readAsDataURL(file);
+    } catch (error) {
+      console.error('Error uploading file:', error);
+      alert('Failed to upload file. Please try again.');
+      setIsUploading(false);
+    }
+  };
+
+  const removeUploadedFile = () => {
+    setUploadedFile(null);
+    setBlogPost(prev => ({
+      ...prev,
+      imageUrl: ''
+    }));
+    // Reset file input
+    const fileInput = document.getElementById('cover-image-file') as HTMLInputElement;
+    if (fileInput) {
+      fileInput.value = '';
+    }
+  };
+
+  // Drag and drop handlers
+  const handleDragOver = (e: React.DragEvent) => {
+    e.preventDefault();
+    e.stopPropagation();
+  };
+
+  const handleDragEnter = (e: React.DragEvent) => {
+    e.preventDefault();
+    e.stopPropagation();
+  };
+
+  const handleDragLeave = (e: React.DragEvent) => {
+    e.preventDefault();
+    e.stopPropagation();
+  };
+
+  const handleDrop = (e: React.DragEvent) => {
+    e.preventDefault();
+    e.stopPropagation();
+    
+    const files = e.dataTransfer.files;
+    if (files && files[0]) {
+      const file = files[0];
+      if (file.type.startsWith('image/')) {
+        // Create a proper file input event
+        const fileInput = document.getElementById('cover-image-file') as HTMLInputElement;
+        if (fileInput) {
+          const dataTransfer = new DataTransfer();
+          dataTransfer.items.add(file);
+          fileInput.files = dataTransfer.files;
+          
+          const event = new Event('change', { bubbles: true });
+          fileInput.dispatchEvent(event);
+        }
+      } else {
+        alert('Please drop an image file');
+      }
     }
   };
 
@@ -755,28 +850,60 @@ const AdminBlog: React.FC = () => {
                     />
                   </div>
 
-                  {/* Category and Image URL */}
-                  <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
-                    <div>
-                      <label className="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-2">
-                        Category
-                      </label>
-                      <select
-                        value={blogPost.category}
-                        onChange={(e) => setBlogPost(prev => ({ ...prev, category: e.target.value }))}
-                        className="w-full px-4 py-3 bg-gray-50 dark:bg-gray-700 rounded-lg border-2 
-                                 border-gray-200 dark:border-gray-600 focus:ring-2 focus:ring-blue-400"
+                  {/* Category */}
+                  <div>
+                    <label className="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-2">
+                      Category
+                    </label>
+                    <select
+                      value={blogPost.category}
+                      onChange={(e) => setBlogPost(prev => ({ ...prev, category: e.target.value }))}
+                      className="w-full px-4 py-3 bg-gray-50 dark:bg-gray-700 rounded-lg border-2 
+                               border-gray-200 dark:border-gray-600 focus:ring-2 focus:ring-blue-400"
+                    >
+                      <option value="">Select Category</option>
+                      {CATEGORIES.map(cat => (
+                        <option key={cat} value={cat}>{cat}</option>
+                      ))}
+                    </select>
+                  </div>
+
+                  {/* Cover Image */}
+                  <div>
+                    <label className="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-3">
+                      Cover Image
+                    </label>
+                    
+                    {/* Image Upload Method Selector */}
+                    <div className="flex space-x-3 mb-4">
+                      <button
+                        type="button"
+                        onClick={() => setImageUploadMethod('url')}
+                        className={`flex items-center px-4 py-2 rounded-lg border-2 transition-all ${
+                          imageUploadMethod === 'url'
+                            ? 'border-blue-500 bg-blue-50 dark:bg-blue-900/20 text-blue-600 dark:text-blue-400'
+                            : 'border-gray-200 dark:border-gray-600 text-gray-600 dark:text-gray-400 hover:border-gray-300'
+                        }`}
                       >
-                        <option value="">Select Category</option>
-                        {CATEGORIES.map(cat => (
-                          <option key={cat} value={cat}>{cat}</option>
-                        ))}
-                      </select>
+                        <FaLink className="mr-2" />
+                        URL
+                      </button>
+                      <button
+                        type="button"
+                        onClick={() => setImageUploadMethod('file')}
+                        className={`flex items-center px-4 py-2 rounded-lg border-2 transition-all ${
+                          imageUploadMethod === 'file'
+                            ? 'border-blue-500 bg-blue-50 dark:bg-blue-900/20 text-blue-600 dark:text-blue-400'
+                            : 'border-gray-200 dark:border-gray-600 text-gray-600 dark:text-gray-400 hover:border-gray-300'
+                        }`}
+                      >
+                        <FaUpload className="mr-2" />
+                        Upload File
+                      </button>
                     </div>
-                    <div>
-                      <label className="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-2">
-                        Cover Image URL
-                      </label>
+
+                    {/* URL Input */}
+                    {imageUploadMethod === 'url' && (
                       <input
                         type="text"
                         value={blogPost.imageUrl}
@@ -785,7 +912,91 @@ const AdminBlog: React.FC = () => {
                         className="w-full px-4 py-3 bg-gray-50 dark:bg-gray-700 rounded-lg border-2 
                                  border-gray-200 dark:border-gray-600 focus:ring-2 focus:ring-blue-400"
                       />
-                    </div>
+                    )}
+
+                    {/* File Upload */}
+                    {imageUploadMethod === 'file' && (
+                      <div className="space-y-3">
+                        <div className="relative">
+                          <input
+                            id="cover-image-file"
+                            type="file"
+                            accept="image/*"
+                            onChange={handleFileUpload}
+                            className="hidden"
+                          />
+                          <label
+                            htmlFor="cover-image-file"
+                            onDragOver={handleDragOver}
+                            onDragEnter={handleDragEnter}
+                            onDragLeave={handleDragLeave}
+                            onDrop={handleDrop}
+                            className={`flex items-center justify-center w-full px-4 py-8 border-2 border-dashed rounded-lg cursor-pointer transition-all ${
+                              isUploading
+                                ? 'border-blue-400 bg-blue-50 dark:bg-blue-900/20'
+                                : uploadedFile || blogPost.imageUrl
+                                ? 'border-green-400 bg-green-50 dark:bg-green-900/20'
+                                : 'border-gray-300 dark:border-gray-600 hover:border-gray-400'
+                            }`}
+                          >
+                            <div className="text-center">
+                              {isUploading ? (
+                                <div className="flex items-center space-x-2">
+                                  <FaSpinner className="animate-spin text-blue-500" />
+                                  <span className="text-blue-600 dark:text-blue-400">Uploading...</span>
+                                </div>
+                              ) : uploadedFile || blogPost.imageUrl ? (
+                                <div className="flex items-center space-x-2">
+                                  <FaImage className="text-green-500" />
+                                  <span className="text-green-600 dark:text-green-400">
+                                    {uploadedFile ? `File: ${uploadedFile.name}` : 'Image Selected'}
+                                  </span>
+                                </div>
+                              ) : (
+                                <div>
+                                  <FaUpload className="mx-auto mb-2 text-gray-400" size={24} />
+                                  <p className="text-gray-600 dark:text-gray-400">
+                                    Click to upload image or drag and drop
+                                  </p>
+                                  <p className="text-sm text-gray-500 dark:text-gray-500 mt-1">
+                                    PNG, JPG, GIF up to 5MB
+                                  </p>
+                                </div>
+                              )}
+                            </div>
+                          </label>
+                        </div>
+                        
+                        {/* Remove File Button */}
+                        {(uploadedFile || blogPost.imageUrl) && (
+                          <button
+                            type="button"
+                            onClick={removeUploadedFile}
+                            className="w-full px-4 py-2 bg-red-500 text-white rounded-lg hover:bg-red-600 transition-colors"
+                          >
+                            Remove Image
+                          </button>
+                        )}
+                      </div>
+                    )}
+
+                    {/* Image Preview */}
+                    {blogPost.imageUrl && (
+                      <div className="mt-4">
+                        <p className="text-sm text-gray-600 dark:text-gray-400 mb-2">Preview:</p>
+                        <div className="relative rounded-lg overflow-hidden border-2 border-gray-200 dark:border-gray-600">
+                          <img
+                            src={blogPost.imageUrl}
+                            alt="Cover preview"
+                            className="w-full h-48 object-cover"
+                            onError={() => {
+                              setBlogPost(prev => ({ ...prev, imageUrl: '' }));
+                              alert('Invalid image URL or failed to load image');
+                            }}
+                          />
+                        </div>
+                      </div>
+                    )}
                   </div>
 
                   {/* Excerpt */}

@@ -4,8 +4,27 @@
     <meta charset="UTF-8" />
     <link rel="icon" type="image/svg+xml" href="./favicon.svg" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    
+    <!-- Performance optimizations -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://avatars.githubusercontent.com">
+    <link rel="dns-prefetch" href="https://cdn.jsdelivr.net">
+    
+    <!-- PWA manifest -->
+    <link rel="manifest" href="/manifest.json">
+    <meta name="theme-color" content="#3B82F6">
+    
     <title>Berat MEN | Software Developer</title>
-    <meta name="description" content="Personal website of Berat MEN, Software Developer" />
+    <meta name="description" content="Personal website of Berat MEN, Software Developer specializing in React, TypeScript, and modern web technologies" />
+    
+    <!-- Critical CSS inline -->
+    <style>
+      body { margin: 0; padding: 0; font-family: system-ui, -apple-system, sans-serif; }
+      .loading { display: flex; align-items: center; justify-content: center; min-height: 100vh; }
+      .spinner { width: 40px; height: 40px; border: 4px solid #e5e7eb; border-top: 4px solid #3b82f6; border-radius: 50%; animation: spin 1s linear infinite; }
+      @keyframes spin { 0% { transform: rotate(0deg); } 100% { transform: rotate(360deg); } }
+    </style>
+    
     <script type="text/javascript">
       // Single Page Apps for GitHub Pages
       // MIT License
@@ -23,7 +42,20 @@
     </script>
   </head>
   <body>
-    <div id="root"></div>
+    <div id="root">
+      <!-- Loading indicator while app loads -->
+      <div class="loading">
+        <div class="spinner"></div>
+      </div>
+    </div>
     <script type="module" src="./src/main.tsx"></script>
+    
+    <!-- Remove loading indicator once app loads -->
+    <script>
+      window.addEventListener('load', () => {
+        const loading = document.querySelector('.loading');
+        if (loading) loading.style.display = 'none';
+      });
+    </script>
   </body>
 </html> 
