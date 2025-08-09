@@ -44,10 +44,24 @@ const Contact: React.FC = () => {
   };
 
   return (
-    <section id="contact" className="py-12 sm:py-16 md:py-20 bg-gray-50 dark:bg-gray-900 mobile-container safe-area-inset-bottom">
-      <div className="container mx-auto px-4 sm:px-6 mobile-spacing">
+    <section id="contact" className="relative py-12 sm:py-16 md:py-20 bg-gradient-to-br from-gray-50 via-blue-50/30 to-indigo-50/40 dark:from-gray-900 dark:via-blue-950/20 dark:to-indigo-950/30 mobile-container safe-area-inset-bottom overflow-hidden">
+      {/* Background decorative elements */}
+      <div className="absolute inset-0 z-0">
+        <div className="absolute -right-32 -top-32 w-96 h-96 bg-gradient-to-br from-blue-500/10 to-purple-500/10 dark:from-blue-400/10 dark:to-purple-400/10 rounded-full filter blur-3xl animate-pulse"></div>
+        <div className="absolute left-10 top-1/4 w-64 h-64 bg-gradient-to-br from-indigo-500/10 to-pink-500/10 dark:from-indigo-400/10 dark:to-pink-400/10 rounded-full filter blur-3xl animate-pulse delay-1000"></div>
+        <div className="absolute right-1/3 bottom-20 w-80 h-80 bg-gradient-to-br from-purple-500/10 to-blue-500/10 dark:from-purple-400/10 dark:to-blue-400/10 rounded-full filter blur-3xl animate-pulse delay-2000"></div>
+      </div>
+      
+      <div className="container relative z-10 mx-auto px-4 sm:px-6 mobile-spacing">
         <div className="text-center mb-12 sm:mb-16">
-          <h2 className="text-2xl sm:text-3xl md:text-4xl font-bold mb-4 text-gray-900 dark:text-white mobile-text-lg">Get In Touch</h2>
+          <h2 className="text-2xl sm:text-3xl md:text-4xl font-bold mb-4 mobile-text-lg">
+            <span className="bg-clip-text text-transparent bg-gradient-to-r from-gray-800 via-blue-600 to-purple-600 dark:from-white dark:via-blue-400 dark:to-purple-400">
+              Get In
+            </span>
+            <span className="bg-clip-text text-transparent bg-gradient-to-r from-purple-600 via-pink-600 to-red-600 dark:from-purple-400 dark:via-pink-400 dark:to-red-400">
+              {" "}Touch
+            </span>
+          </h2>
           <p className="text-base sm:text-lg text-gray-600 dark:text-gray-400 max-w-3xl mx-auto mobile-text-base">
             Have a project in mind or want to discuss collaboration opportunities? I'd love to hear from you!
           </p>
@@ -224,21 +238,24 @@ const Contact: React.FC = () => {
                   <button
                     type="submit"
                     disabled={isSubmitting}
-                    className="w-full sm:w-auto px-6 sm:px-8 py-3 sm:py-4 bg-blue-600 hover:bg-blue-700 text-white rounded-lg transition-colors 
+                    className="w-full sm:w-auto px-6 sm:px-8 py-3 sm:py-4 bg-gradient-to-r from-blue-500 to-purple-500 hover:from-blue-600 hover:to-purple-600 text-white rounded-xl transition-all duration-300 transform hover:scale-105 hover:-translate-y-1
                              flex items-center justify-center space-x-2 disabled:opacity-70 disabled:cursor-not-allowed
-                             mobile-touch-target touch-feedback text-base font-medium min-h-[48px]"
+                             mobile-touch-target touch-feedback text-base font-medium min-h-[48px] shadow-lg hover:shadow-xl relative overflow-hidden group"
                   >
-                    {isSubmitting ? (
-                      <>
-                        <FaSpinner className="animate-spin" />
-                        <span>Sending...</span>
-                      </>
-                    ) : (
-                      <>
-                        <FaPaperPlane />
-                        <span>Send Message</span>
-                      </>
-                    )}
+                    <div className="absolute inset-0 bg-gradient-to-r from-blue-600 via-purple-600 to-indigo-600 opacity-0 group-hover:opacity-100 transition-opacity duration-500"></div>
+                    <div className="relative z-10 flex items-center space-x-2">
+                      {isSubmitting ? (
+                        <>
+                          <FaSpinner className="animate-spin" />
+                          <span>Sending...</span>
+                        </>
+                      ) : (
+                        <>
+                          <FaPaperPlane />
+                          <span>Send Message</span>
+                        </>
+                      )}
+                    </div>
                   </button>
                 </form>
               )}

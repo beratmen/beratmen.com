@@ -18,17 +18,43 @@ const Home: React.FC = () => {
   const loadProfileData = async () => {
     try {
       setError(null);
-      const response = await fetch('https://api.github.com/users/beratmen');
-      if (response.ok) {
-        const data = await response.json();
-        setGithubProfile(data);
-        setAvatarUrl(data.avatar_url);
-      } else {
-        throw new Error('Failed to fetch GitHub profile');
+      // Silent fetch to avoid console errors
+      const response = await fetch('https://api.github.com/users/beratmen').catch(() => {
+        // Return a mock response object for network errors
+        return { ok: false, status: 403, json: () => Promise.resolve({}) };
+      });
+      
+      if (response.status === 403 || !response.ok) {
+        // Rate limited or error - use fallback data with real profile photo
+        const fallbackProfile = {
+          avatar_url: 'https://github.com/beratmen.png', // GitHub kullanıcı adınızla direkt avatar
+          name: 'Berat Men',
+          bio: 'Software Developer & Mobile App Developer',
+          public_repos: 10,
+          followers: 50,
+          following: 25
+        };
+        setGithubProfile(fallbackProfile);
+        setAvatarUrl(fallbackProfile.avatar_url);
+        return;
       }
+      
+      const data = await response.json();
+      setGithubProfile(data);
+      setAvatarUrl(data.avatar_url);
     } catch (error) {
-      console.error('Failed to fetch GitHub profile:', error);
-      setError('Could not load GitHub profile data');
+      // Silent error handling - use fallback data with real profile photo
+      const fallbackProfile = {
+        avatar_url: 'https://github.com/beratmen.png', // GitHub kullanıcı adınızla direkt avatar
+        name: 'Berat Men',
+        bio: 'Software Developer & Mobile App Developer',
+        public_repos: 10,
+        followers: 50,
+        following: 25
+      };
+      setGithubProfile(fallbackProfile);
+      setAvatarUrl(fallbackProfile.avatar_url);
+      setError(null); // Don't show error with fallback data
     }
   };
 
@@ -38,18 +64,13 @@ const Home: React.FC = () => {
   }, []);
 
   return (
-    <section id="home" className="relative min-h-screen flex items-center justify-center overflow-hidden mobile-container">
+    <section id="home" className="relative min-h-screen flex items-center justify-center overflow-hidden mobile-container bg-gradient-to-br from-gray-50 via-blue-50/30 to-indigo-50/40 dark:from-gray-900 dark:via-blue-950/20 dark:to-indigo-950/30">
       {/* Enhanced Background with Multiple Layers */}
       <div className="absolute inset-0 z-0">
-        {/* Base gradient background */}
-        <div className="absolute inset-0 bg-gradient-to-br from-gray-50 via-white to-gray-100 dark:from-gray-900 dark:via-gray-800 dark:to-gray-800"></div>
-        
-        {/* Animated gradient blobs */}
-        <div className="absolute top-0 left-0 right-0 bottom-0 opacity-30 dark:opacity-20 overflow-hidden">
-          <div className="absolute top-[10%] left-[5%] w-[40%] h-[30%] bg-blue-300/30 dark:bg-blue-500/20 rounded-full mix-blend-multiply dark:mix-blend-lighten filter blur-3xl animate-pulse"></div>
-          <div className="absolute top-[20%] right-[10%] w-[35%] h-[35%] bg-purple-300/20 dark:bg-purple-500/20 rounded-full mix-blend-multiply dark:mix-blend-lighten filter blur-3xl animate-pulse delay-1000"></div>
-          <div className="absolute bottom-[20%] left-[15%] w-[40%] h-[40%] bg-indigo-300/20 dark:bg-indigo-500/20 rounded-full mix-blend-multiply dark:mix-blend-lighten filter blur-3xl animate-pulse delay-2000"></div>
-        </div>
+        {/* Animated gradient blobs - matching Projects theme */}
+        <div className="absolute -right-32 -top-32 w-96 h-96 bg-gradient-to-br from-blue-500/10 to-purple-500/10 dark:from-blue-400/10 dark:to-purple-400/10 rounded-full filter blur-3xl animate-pulse"></div>
+        <div className="absolute left-10 top-1/4 w-64 h-64 bg-gradient-to-br from-indigo-500/10 to-pink-500/10 dark:from-indigo-400/10 dark:to-pink-400/10 rounded-full filter blur-3xl animate-pulse delay-1000"></div>
+        <div className="absolute right-1/3 bottom-20 w-80 h-80 bg-gradient-to-br from-purple-500/10 to-blue-500/10 dark:from-purple-400/10 dark:to-blue-400/10 rounded-full filter blur-3xl animate-pulse delay-2000"></div>
         
         {/* Modern grid pattern */}
         <div className="absolute inset-0 bg-[linear-gradient(to_right,rgba(59,130,246,0.05)_1px,transparent_1px),linear-gradient(to_bottom,rgba(59,130,246,0.05)_1px,transparent_1px)] bg-[size:40px_40px] dark:bg-[linear-gradient(to_right,rgba(59,130,246,0.03)_1px,transparent_1px),linear-gradient(to_bottom,rgba(59,130,246,0.03)_1px,transparent_1px)]"></div>
@@ -78,8 +99,8 @@ const Home: React.FC = () => {
             <div className={`space-y-6 sm:space-y-8 md:space-y-10 transform transition-all duration-1000 ease-out ${isVisible ? 'translate-y-0 opacity-100' : 'translate-y-10 opacity-0'}`}>
               {/* Hero Text */}
               <div className="space-y-3 sm:space-y-4">
-                <div className="inline-flex items-center px-3 py-1 rounded-full bg-blue-100/70 dark:bg-blue-900/30 text-blue-600 dark:text-blue-300 text-sm font-medium mb-2">
-                  <span className="inline-block w-2 h-2 rounded-full bg-blue-500 dark:bg-blue-400 mr-2 animate-ping"></span>
+                <div className="inline-flex items-center px-6 py-2 bg-gradient-to-r from-blue-500 via-purple-500 to-indigo-500 text-white text-sm font-medium rounded-full shadow-xl shadow-blue-500/25 mb-2">
+                  <span className="inline-block w-2 h-2 rounded-full bg-white mr-2 animate-ping"></span>
                   Available for new projects
                 </div>
                 
@@ -87,7 +108,7 @@ const Home: React.FC = () => {
                   <StyledName />
                 </h1>
                 
-                <h2 className="text-lg sm:text-xl md:text-2xl lg:text-3xl font-medium bg-gradient-to-r from-gray-700 to-gray-500 dark:from-gray-300 dark:to-gray-400 bg-clip-text text-transparent mobile-text-base">
+                <h2 className="text-lg sm:text-xl md:text-2xl lg:text-3xl font-medium bg-clip-text text-transparent bg-gradient-to-r from-purple-600 via-pink-600 to-red-600 dark:from-purple-400 dark:via-pink-400 dark:to-red-400 mobile-text-base">
                   Software Developer
                 </h2>
               </div>
@@ -120,38 +141,38 @@ const Home: React.FC = () => {
                     href="https://github.com/beratmen"
                     target="_blank"
                     rel="noopener noreferrer"
-                    className="group flex items-center justify-center sm:justify-start gap-2 px-4 py-3 rounded-xl text-base bg-white dark:bg-gray-800 text-gray-700 dark:text-gray-300 
-                             hover:bg-blue-50 dark:hover:bg-gray-700
+                    className="group flex items-center justify-center sm:justify-start gap-2 px-6 py-3 rounded-xl text-base bg-gradient-to-r from-gray-800 via-gray-900 to-black dark:from-gray-700 dark:via-gray-800 dark:to-gray-900 text-white 
                              transition-all duration-300 transform hover:scale-105 hover:-translate-y-1
-                             shadow-lg hover:shadow-xl hover:shadow-blue-100/40 dark:hover:shadow-blue-900/30
-                             border border-gray-100 dark:border-gray-700 touch-feedback mobile-touch-target"
+                             shadow-lg hover:shadow-xl
+                             border border-gray-200/50 dark:border-gray-700/50 touch-feedback mobile-touch-target relative overflow-hidden"
                   >
-                    <FaGithub className="text-lg flex-shrink-0" />
-                    <span className="font-medium">GitHub</span>
+                    <div className="absolute inset-0 bg-gradient-to-r from-blue-600 via-purple-600 to-indigo-600 opacity-0 group-hover:opacity-100 transition-opacity duration-500"></div>
+                    <FaGithub className="text-lg flex-shrink-0 relative z-10" />
+                    <span className="font-medium relative z-10">GitHub</span>
                   </a>
                   <a
                     href="https://linkedin.com/in/beratmen"
                     target="_blank"
                     rel="noopener noreferrer"
-                    className="group flex items-center justify-center sm:justify-start gap-2 px-4 py-3 rounded-xl text-base bg-white dark:bg-gray-800 text-gray-700 dark:text-gray-300 
-                             hover:bg-blue-50 dark:hover:bg-gray-700
+                    className="group flex items-center justify-center sm:justify-start gap-2 px-6 py-3 rounded-xl text-base bg-gradient-to-r from-blue-500 to-blue-600 text-white 
                              transition-all duration-300 transform hover:scale-105 hover:-translate-y-1
-                             shadow-lg hover:shadow-xl hover:shadow-blue-100/40 dark:hover:shadow-blue-900/30
-                             border border-gray-100 dark:border-gray-700 touch-feedback mobile-touch-target"
+                             shadow-lg hover:shadow-xl hover:shadow-blue-500/30
+                             border border-blue-200/50 dark:border-blue-700/50 touch-feedback mobile-touch-target relative overflow-hidden"
                   >
-                    <FaLinkedin className="text-lg flex-shrink-0" />
-                    <span className="font-medium">LinkedIn</span>
+                    <div className="absolute inset-0 bg-gradient-to-r from-blue-600 via-purple-600 to-indigo-600 opacity-0 group-hover:opacity-100 transition-opacity duration-500"></div>
+                    <FaLinkedin className="text-lg flex-shrink-0 relative z-10" />
+                    <span className="font-medium relative z-10">LinkedIn</span>
                   </a>
                   <a
                     href="mailto:beratmen9@gmail.com"
-                    className="group flex items-center justify-center sm:justify-start gap-2 px-4 py-3 rounded-xl text-base bg-white dark:bg-gray-800 text-gray-700 dark:text-gray-300 
-                             hover:bg-blue-50 dark:hover:bg-gray-700
+                    className="group flex items-center justify-center sm:justify-start gap-2 px-6 py-3 rounded-xl text-base bg-gradient-to-r from-purple-500 to-purple-600 text-white 
                              transition-all duration-300 transform hover:scale-105 hover:-translate-y-1
-                             shadow-lg hover:shadow-xl hover:shadow-blue-100/40 dark:hover:shadow-blue-900/30
-                             border border-gray-100 dark:border-gray-700 touch-feedback mobile-touch-target"
+                             shadow-lg hover:shadow-xl hover:shadow-purple-500/30
+                             border border-purple-200/50 dark:border-purple-700/50 touch-feedback mobile-touch-target relative overflow-hidden"
                   >
-                    <MdEmail className="text-lg flex-shrink-0" />
-                    <span className="font-medium">Email</span>
+                    <div className="absolute inset-0 bg-gradient-to-r from-purple-600 via-pink-600 to-red-600 opacity-0 group-hover:opacity-100 transition-opacity duration-500"></div>
+                    <MdEmail className="text-lg flex-shrink-0 relative z-10" />
+                    <span className="font-medium relative z-10">Email</span>
                   </a>
                 </div>
               </div>

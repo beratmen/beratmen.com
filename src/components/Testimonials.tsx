@@ -89,11 +89,23 @@ const Testimonials: React.FC = () => {
   }, [currentIndex]);
 
   return (
-    <section id="testimonials" className="py-12 md:py-20 bg-gradient-to-b from-white to-gray-50 dark:from-gray-900 dark:to-gray-800">
-      <div className="container mx-auto mobile-spacing px-4 mobile-container">
+    <section id="testimonials" className="relative py-12 md:py-20 bg-gradient-to-br from-gray-50 via-blue-50/30 to-indigo-50/40 dark:from-gray-900 dark:via-blue-950/20 dark:to-indigo-950/30 overflow-hidden">
+      {/* Background decorative elements */}
+      <div className="absolute inset-0 z-0">
+        <div className="absolute -right-32 -top-32 w-96 h-96 bg-gradient-to-br from-blue-500/10 to-purple-500/10 dark:from-blue-400/10 dark:to-purple-400/10 rounded-full filter blur-3xl animate-pulse"></div>
+        <div className="absolute left-10 top-1/4 w-64 h-64 bg-gradient-to-br from-indigo-500/10 to-pink-500/10 dark:from-indigo-400/10 dark:to-pink-400/10 rounded-full filter blur-3xl animate-pulse delay-1000"></div>
+        <div className="absolute right-1/3 bottom-20 w-80 h-80 bg-gradient-to-br from-purple-500/10 to-blue-500/10 dark:from-purple-400/10 dark:to-blue-400/10 rounded-full filter blur-3xl animate-pulse delay-2000"></div>
+      </div>
+      
+      <div className="container relative z-10 mx-auto mobile-spacing px-4 mobile-container">
         <div className="text-center mb-12 md:mb-16">
-          <h2 className="text-2xl sm:text-3xl md:text-4xl font-bold mb-4 text-gray-900 dark:text-white mobile-text-contrast">
-            Client Testimonials
+          <h2 className="text-2xl sm:text-3xl md:text-4xl font-bold mb-4 mobile-text-contrast">
+            <span className="bg-clip-text text-transparent bg-gradient-to-r from-gray-800 via-blue-600 to-purple-600 dark:from-white dark:via-blue-400 dark:to-purple-400">
+              Client
+            </span>
+            <span className="bg-clip-text text-transparent bg-gradient-to-r from-purple-600 via-pink-600 to-red-600 dark:from-purple-400 dark:via-pink-400 dark:to-red-400">
+              {" "}Testimonials
+            </span>
           </h2>
           <p className="text-base md:text-lg text-gray-600 dark:text-gray-400 max-w-3xl mx-auto mobile-text-base">
             Here's what people are saying about working with me.
@@ -123,7 +135,7 @@ const Testimonials: React.FC = () => {
                           className="w-full h-full object-cover"
                           onError={(e) => {
                             // Fallback for missing images
-                            (e.target as HTMLImageElement).src = 'https://via.placeholder.com/150';
+                            (e.target as HTMLImageElement).src = 'https://placehold.co/150x150/EEE/31343C?text=User';
                           }}
                         />
                       </div>

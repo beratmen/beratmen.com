@@ -1,3 +1,6 @@
+/* Import custom project styles */
+@import './styles/projects.css';
+
 @tailwind base;
 @tailwind components;
 @tailwind utilities;

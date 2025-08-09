@@ -1,6 +1,6 @@
 import React, { useState } from 'react';
 import { Link } from 'react-router-dom';
-import { FaTwitter, FaGithub, FaLinkedinIn, FaEnvelope, FaCode, FaHeart, FaPaperPlane, FaCheck } from 'react-icons/fa';
+import { FaGithub, FaLinkedinIn, FaEnvelope, FaCode, FaHeart, FaPaperPlane, FaCheck } from 'react-icons/fa';
 import StyledName from '../shared/StyledName';
 
 const Footer: React.FC = () => {
@@ -49,16 +49,7 @@ const Footer: React.FC = () => {
               Passionate software developer specializing in building exceptional digital experiences with modern web technologies.
             </p>
             <div className="flex space-x-4">
-              <a 
-                href="https://twitter.com/beratmen" 
-                target="_blank" 
-                rel="noopener noreferrer"
-                className="bg-gray-800 hover:bg-blue-500 w-10 h-10 rounded-full flex items-center justify-center transition-colors"
-                aria-label="Twitter"
-              >
-                <FaTwitter />
-              </a>
-              <a 
+<a 
                 href="https://github.com/beratmen" 
                 target="_blank" 
                 rel="noopener noreferrer"

@@ -1,0 +1,21 @@
+{
+  "name": "Berat Men - Software Developer",
+  "short_name": "Berat Men",
+  "description": "Software Developer Portfolio - Full Stack Development, Mobile Apps, and Web Solutions",
+  "start_url": "/",
+  "display": "standalone",
+  "background_color": "#ffffff",
+  "theme_color": "#4F46E5",
+  "orientation": "portrait-primary",
+  "icons": [
+    {
+      "src": "/favicon.ico",
+      "sizes": "64x64 32x32 24x24 16x16",
+      "type": "image/x-icon"
+    }
+  ],
+  "categories": ["developer-tools", "productivity"],
+  "lang": "tr",
+  "scope": "/",
+  "id": "beratmen-portfolio"
+}
