@@ -6,7 +6,7 @@ import securityHeaders from './src/utils/securityHeaders'
 // https://vitejs.dev/config/
 export default defineConfig({
   plugins: [react(), tsconfigPaths(), securityHeaders()],
-  base: '/beratmen/', // Add base path for GitHub Pages
+  base: '/', // Changed from '/beratmen/' for hosting
   server: {
     port: 3000,
   },

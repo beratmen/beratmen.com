@@ -26,13 +26,18 @@ export default function securityHeaders(): Plugin {
       });
     },
     transformIndexHtml(html) {
-      // Add meta tags for security
+      // Generate CSP meta tag without frame-ancestors
+      const cspMetaContent = generateCspMetaTag()
+        .replace(/frame-ancestors[^;]+;?/i, '')
+        .replace(/;{2,}/g, ';')
+        .replace(/;\s*$/, '');
+      
+      // Add meta tags for security (excluding frame-ancestors and X-Frame-Options)
       return html.replace(
         /<head>/i,
         `<head>
-          <meta http-equiv="Content-Security-Policy" content="${generateCspMetaTag()}">
+          <meta http-equiv="Content-Security-Policy" content="${cspMetaContent}">
           <meta http-equiv="X-Content-Type-Options" content="nosniff">
-          <meta http-equiv="X-Frame-Options" content="DENY">
           <meta http-equiv="X-XSS-Protection" content="1; mode=block">
           <meta http-equiv="Referrer-Policy" content="strict-origin-when-cross-origin">
           <meta http-equiv="Permissions-Policy" content="camera=(), microphone=(), geolocation=()">

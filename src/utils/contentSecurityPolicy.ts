@@ -31,7 +31,8 @@ export const cspDirectives = {
     "data:",
     "https://avatars.githubusercontent.com",
     "https://api.github.com",
-    "https://raw.githubusercontent.com"
+    "https://raw.githubusercontent.com",
+    "https://placehold.co"
   ],
   
   // Only allow fonts from these sources
