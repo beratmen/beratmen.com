@@ -3,7 +3,18 @@
 A modern, secure, and responsive personal portfolio and blog website built with React, TypeScript, and Tailwind CSS.
 
 <p align="center">
-  <img src="public/preview.png" alt="Project Preview" width="80%"/>
+  <!-- Use raw.githubusercontent link to ensure the image loads on GitHub; this points to the repo's main branch -->
+  <a href="https://beratmen-com.vercel.app" target="_blank" rel="noopener noreferrer">
+    <img src="https://raw.githubusercontent.com/beratmen/beratmen.com/main/public/preview.png" alt="Project Preview" width="80%" />
+  </a>
+</p>
+
+<p align="center">If the image above still doesn't load, click the badge below to open the live demo on Vercel.</p>
+
+<p align="center">
+  <a href="https://beratmen-com.vercel.app" target="_blank" rel="noopener noreferrer">
+    <img alt="Open Live Demo" src="https://img.shields.io/badge/🔎%20Open%20Live%20Demo-Vercel-000000?style=for-the-badge&logo=vercel&logoColor=white" />
+  </a>
 </p>
 
 ---
