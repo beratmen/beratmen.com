@@ -2,15 +2,6 @@
 
 A modern, secure, and responsive personal portfolio and blog website built with React, TypeScript, and Tailwind CSS.
 
-<p align="center">
-  <!-- Small decorative emoji instead of loading a large preview image -->
-  <span style="font-size:48px; line-height:1">🚀</span>
-  <br />
-  <strong>Berat MEN – Personal Portfolio & Blog</strong>
-</p>
-
----
-
 ## 📺 Live Demo
 
 <p align="center">
