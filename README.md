@@ -10,7 +10,13 @@ A modern, secure, and responsive personal portfolio and blog website built with 
 
 ## 📺 Live Demo
 
-> 🌐 **Try it live:** [beratmen.github.io](https://beratmen.github.io)
+<p align="center">
+  <a href="https://beratmen-com.vercel.app" target="_blank" rel="noopener noreferrer">
+    <img alt="Visit Live - Vercel" src="https://img.shields.io/badge/▶️%20Live%20Site%20-%20Vercel-000000?style=for-the-badge&logo=vercel&logoColor=white" />
+  </a>
+</p>
+
+<p align="center">✨ Click the badge above to open the live demo hosted on Vercel — the site updates automatically on each deploy.</p>
 
 ---
 
