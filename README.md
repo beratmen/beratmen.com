@@ -205,6 +205,6 @@ This project is licensed under the MIT License. See the [LICENSE](LICENSE) file 
 ## 👤 Author
 
 **Berat MEN**
-- 🌐 Website: [beratmen.github.io](https://beratmen.github.io)
+- 🌐 Website: [beratmen-com.vercel.app](https://beratmen-com.vercel.app)
 - 🐙 GitHub: [@beratmen](https://github.com/beratmen)
 - 💼 LinkedIn: [Berat MEN](https://linkedin.com/in/beratmen)
