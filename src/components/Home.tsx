@@ -27,7 +27,7 @@ const Home: React.FC = () => {
       if (response.status === 403 || !response.ok) {
         // Rate limited or error - use fallback data with real profile photo
         const fallbackProfile = {
-          avatar_url: 'https://github.com/beratmen.png', // GitHub kullanıcı adınızla direkt avatar
+          avatar_url: 'https://github.com/beratmen.png', // Direct avatar from GitHub username
           name: 'Berat Men',
           bio: 'Software Developer & Mobile App Developer',
           public_repos: 10,
@@ -45,7 +45,7 @@ const Home: React.FC = () => {
     } catch (error) {
       // Silent error handling - use fallback data with real profile photo
       const fallbackProfile = {
-        avatar_url: 'https://github.com/beratmen.png', // GitHub kullanıcı adınızla direkt avatar
+        avatar_url: 'https://github.com/beratmen.png', // Direct avatar from GitHub username
         name: 'Berat Men',
         bio: 'Software Developer & Mobile App Developer',
         public_repos: 10,
@@ -199,14 +199,14 @@ const Home: React.FC = () => {
               
               {/* 3D Card Effect Container */}
               <div className="relative p-2 bg-gradient-to-r from-blue-600 via-indigo-500 to-purple-500 dark:from-blue-400 dark:via-indigo-300 dark:to-purple-400 
-                          rounded-2xl transform transition-transform duration-500 group-hover:scale-105 
+                          rounded-full transform transition-transform duration-500 group-hover:scale-105 
                           group-hover:rotate-2 shadow-2xl">
-                <div className="rounded-xl overflow-hidden bg-white dark:bg-gray-900 p-1 backdrop-blur-sm">
+                <div className="rounded-full overflow-hidden bg-white dark:bg-gray-900 p-1 backdrop-blur-sm">
                   <img
                     src={avatarUrl || '/profile-picture.jpg'}
                     alt="Berat MEN"
                     className="w-64 h-64 md:w-80 md:h-80 object-cover transform transition-all duration-500
-                             filter group-hover:brightness-110 group-hover:contrast-110 rounded-lg"
+                             filter group-hover:brightness-110 group-hover:contrast-110 rounded-full"
                   />
                 </div>
               </div>

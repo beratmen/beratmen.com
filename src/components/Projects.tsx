@@ -55,7 +55,7 @@ const Projects: React.FC = () => {
   // Scroll carousel left or right
   const scrollCarousel = (direction: 'left' | 'right') => {
     if (carouselRef.current) {
-      const scrollAmount = carouselRef.current.clientWidth * 0.8; // Container genişliğinin %80'i kadar kaydır
+      const scrollAmount = carouselRef.current.clientWidth * 0.8; // Scroll by 80% of container width
       const newScrollLeft = direction === 'left' 
         ? carouselRef.current.scrollLeft - scrollAmount
         : carouselRef.current.scrollLeft + scrollAmount;
@@ -65,12 +65,12 @@ const Projects: React.FC = () => {
         behavior: 'smooth'
       });
       
-      // Scroll işlemi bittikten sonra buton durumlarını güncelle
+      // Update button states after scroll operation completes
       setTimeout(checkScrollPosition, 300);
     }
   };
 
-  // Carousel yüklendiğinde ve filtreleme yapıldığında scroll pozisyonunu kontrol et
+  // Check scroll position when carousel is loaded and when filtering is applied
   useEffect(() => {
     const carousel = carouselRef.current;
     
@@ -79,17 +79,17 @@ const Projects: React.FC = () => {
     };
     
     if (carousel) {
-      // Scroll olayını dinle
+      // Listen for scroll events
       carousel.addEventListener('scroll', checkScrollPosition);
-      // Pencere boyutu değiştiğinde de kontrol et
+      // Also check when window is resized
       window.addEventListener('resize', handleResize);
       
-      // İlk yüklemede ve filtre değiştiğinde kontrol et
+      // Check on initial load and when filter changes
       const timer = setTimeout(() => {
         checkScrollPosition();
       }, 100);
       
-      // Temizlik
+      // Cleanup
       return () => {
         carousel.removeEventListener('scroll', checkScrollPosition);
         window.removeEventListener('resize', handleResize);

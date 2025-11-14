@@ -8,7 +8,7 @@ const prisma = new PrismaClient();
 
 async function createAdmin() {
   const username = 'admin';
-  const password = 'Admin123!'; // You should change this to a secure password
+  const password = 'BeratMen2025!'; // New secure password
   
   try {
     // Check if admin already exists
@@ -43,4 +43,6 @@ async function createAdmin() {
   }
 }
 
-createAdmin();
+createAdmin().catch(console.error).finally(async () => {
+  await prisma.$disconnect();
+});

@@ -19,10 +19,10 @@ app.use(cors());
 app.use(express.json());
 
 // Import routes - using dynamic import for ES modules
-import('./routes/linkedin.js').then(linkedInModule => {
-  // Use routes
-  app.use('/api/linkedin', linkedInModule.default || linkedInModule);
-});
+// import('./routes/linkedin.js').then(linkedInModule => {
+//   // Use routes
+//   app.use('/api/linkedin', linkedInModule.default || linkedInModule);
+// });
 
 // POST /api/login — authenticate admin login
 app.post('/api/login', async (req, res) => {

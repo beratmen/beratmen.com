@@ -10,6 +10,12 @@ node_modules/
 /build
 /dist
 
+# Auto-generated files
+/src/generated/
+prisma/migrations/*/migration.sql
+server/prisma/dev.db*
+server/prisma/dev.db-journal
+
 # Misc
 .DS_Store
 .env

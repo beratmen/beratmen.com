@@ -44,7 +44,14 @@ export const cspDirectives = {
   // Only allow connections to these sources
   'connect-src': [
     "'self'",
-    "https://api.github.com"
+    "https://api.github.com",
+    "https://www.google.com"
+  ],
+  
+  // Allow embedding from trusted sources (Google Maps)
+  'frame-src': [
+    "'self'",
+    "https://www.google.com"
   ],
   
   // Disallow embedding in frames (prevents clickjacking)

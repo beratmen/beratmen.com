@@ -119,11 +119,12 @@ const Contact: React.FC = () => {
                 width="100%" 
                 height="100%" 
                 style={{ border: 0 }} 
-                allowFullScreen 
+                allowFullScreen={true}
                 loading="lazy" 
                 referrerPolicy="no-referrer-when-downgrade"
+                sandbox="allow-same-origin allow-scripts allow-popups"
                 title="Google Maps - Palo Alto"
-                className="dark:brightness-90 rounded-lg shadow-inner dark:opacity-90 hover:opacity-100 transition-opacity duration-300 h-full"
+                className="rounded-lg shadow-inner dark:opacity-90 hover:opacity-100 transition-opacity duration-300 h-full w-full"
               ></iframe>
             </div>
           </div>

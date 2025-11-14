@@ -11,13 +11,13 @@ export const login = async (req, res) => {
   });
 
   if (!admin) {
-    return res.status(401).json({ message: 'Kullanıcı bulunamadı' });
+    return res.status(401).json({ message: 'User not found' });
   }
 
   const isPasswordValid = await bcrypt.compare(password, admin.password);
   if (!isPasswordValid) {
-    return res.status(401).json({ message: 'Şifre yanlış' });
+    return res.status(401).json({ message: 'Invalid password' });
   }
 
-  res.json({ message: 'Giriş başarılı' });
+  res.json({ message: 'Login successful' });
 };
